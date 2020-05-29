@@ -8,7 +8,7 @@
     "dev": "tsc -p src/tsconfig.json -w",
     "build": "tsc -p tsconfig.build.json",
     "test": "jest",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint . --ext .ts"
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",
