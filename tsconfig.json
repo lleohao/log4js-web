@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "outDir": "out-ts",
+    "sourceMap": true,
+    "declaration": false
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
