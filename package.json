@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "tsc -p src/tsconfig.json -w",
     "build": "tsc -p tsconfig.build.json",
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint . --ext .ts"
   },
   "devDependencies": {
