@@ -1,4 +1,4 @@
-import { Level, Levels } from '../Levels';
+import { Level, Levels } from '../levels';
 
 function assertThat(level: Level) {
   function assertForEach(assertion: boolean, testFn: (level: Level) => boolean, otherLevels: Array<Level | string>) {
