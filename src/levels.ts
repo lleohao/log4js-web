@@ -1,21 +1,22 @@
 import { addListener, addPreProcessingListener } from './configure';
+import { LayoutFontColor } from './layouts';
 import { anInteger, anObject, not, throwExceptionIf, validIdentifier } from './utils';
 
 type LevelType = 'ALL' | 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL' | 'MARK' | 'OFF' | string;
 
 interface CustomLevel {
   value: number;
-  colour: string;
+  colour: LayoutFontColor;
 }
 
-const validColours = ['white', 'grey', 'black', 'blue', 'cyan', 'green', 'magenta', 'red', 'yellow'];
+const validColours: LayoutFontColor[] = ['white', 'grey', 'black', 'blue', 'cyan', 'green', 'magenta', 'red', 'yellow'];
 
 const Levels: Record<LevelType, Level> = {};
 
 class Level {
   static levels: Level[] = [];
 
-  constructor(public level: number, public levelStr: string, public colour: string) {
+  constructor(public level: number, public levelStr: string, public colour: LayoutFontColor) {
     this.level = level;
     this.levelStr = levelStr;
     this.colour = colour;
@@ -136,7 +137,7 @@ addPreProcessingListener((config) => {
   }
 });
 
-// Add custom levles
+// Add custom levels
 addListener((config) => {
   Level.addLevels(config.levels);
 });
