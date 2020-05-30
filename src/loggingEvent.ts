@@ -20,7 +20,8 @@ export class LoggingEvent implements LoggingLocation {
   constructor(
     public categoryName: string,
     public level: Level,
-    public data: Array<string | { message: string; stack: string[] }>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public data: Array<any>,
     public context: Record<string, unknown> = {},
     location?: LoggingLocation
   ) {
@@ -43,7 +44,7 @@ export class LoggingEvent implements LoggingLocation {
     this.data = this.data.map((e) => {
       // JSON.stringify(new Error('test')) returns {}, which is not really useful for us.
       // The following allows us to serialize errors correctly.
-      if (typeof e !== 'string') {
+      if (e && e.message && e.stack) {
         e = Object.assign({ message: e.message, stack: e.stack }, e);
       }
 
