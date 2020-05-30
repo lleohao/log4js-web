@@ -26,5 +26,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": ""
+  "license": "",
+  "dependencies": {
+    "date-format": "^3.0.0"
+  }
 }
