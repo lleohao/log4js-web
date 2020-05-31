@@ -1,4 +1,4 @@
-import { AppendersConfig } from '../configure';
+import { Appender } from '../configure';
 import { colouredLayout, layout as getLayout, LayoutHandle } from '../layouts';
 import { LoggingEvent } from '../loggingEvent';
 import { AppenderConfigure } from './appenders';
@@ -11,7 +11,7 @@ function consoleAppender(layout: LayoutHandle) {
   };
 }
 
-const configure: AppenderConfigure = (config: AppendersConfig) => {
+const configure: AppenderConfigure = (config: Appender) => {
   let layout = colouredLayout;
 
   if (config.layout) {
