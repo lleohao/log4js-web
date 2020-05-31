@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { addPreProcessingListener, AppendersConfig, Configuration } from '../configure';
+import { addPreProcessingListener, Appender, Configuration } from '../configure';
 import { LoggingEvent } from '../loggingEvent';
 import { anObject, not, throwExceptionIf } from '../utils';
 import * as consoleAppender from './console';
 
-type AppenderConfigure = (config: AppendersConfig) => (loggingEvent: LoggingEvent) => void;
+type AppenderConfigure = (config: Appender) => (loggingEvent: LoggingEvent) => void;
 
 // pre-load the core appenders so that webpack can find them
 const coreAppenders: Map<string, any> = new Map();

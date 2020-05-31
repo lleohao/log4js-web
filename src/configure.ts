@@ -1,28 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Category } from './categories';
 import { LayoutType } from './layouts';
-import { CustomLevel, LevelType } from './levels';
+import { CustomLevel } from './levels';
 import { anObject, not, throwExceptionIf } from './utils';
 
 export type ListenerHandle = (config: Configuration) => void;
 
-export interface AppendersConfig {
+export interface Appender {
   type: string;
   layout?: {
     type: LayoutType;
     [key: string]: any;
   };
+
   [key: string]: any;
 }
 
 export interface Configuration {
-  categories?: {
-    [key: string]: {
-      appenders: string[];
-      level: LevelType;
-    };
-  };
+  categories?: Record<string, Category>;
   levels?: { [key: string]: CustomLevel };
-  appenders: Record<string, AppendersConfig>;
+  appenders?: Record<string, Appender>;
 }
 
 const preProcessingListeners: ListenerHandle[] = [];
