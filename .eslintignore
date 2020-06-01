@@ -2,3 +2,5 @@ node_modules
 dist
 out-ts
 coverage
+jest.config.js
+.eslintrc.js
