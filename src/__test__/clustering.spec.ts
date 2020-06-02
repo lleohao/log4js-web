@@ -1,4 +1,4 @@
-import { send, onMessage } from '../clustering';
+import { onMessage, send } from '../clustering';
 
 describe('clustering test', () => {
   test('send should be defined', () => {

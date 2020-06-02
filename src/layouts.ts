@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-ts-comment */
 import * as dateFormat from 'date-format';
-import { log } from 'util';
 import * as util from 'util';
 import { LoggingEvent } from './loggingEvent';
 

@@ -1,7 +1,7 @@
+import * as path from 'path';
 import { addLayout, basicLayout, colouredLayout, dummyLayout, layout, patternLayout } from '../layouts';
 import { Levels } from '../levels';
 import { LoggingEvent } from '../loggingEvent';
-import * as path from 'path';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function testPattern(event: Partial<LoggingEvent>, tokens: Record<string, any>, pattern: string, value: string) {

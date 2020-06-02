@@ -10,12 +10,7 @@ const validIdentifier: Checker = (thing: string) => /^[A-Za-z][A-Za-z0-9_]*$/g.t
 
 const anInteger: Checker = (thing: unknown) => thing && typeof thing === 'number' && Number.isInteger(thing);
 
-const throwExceptionIf = (
-  config: unknown,
-  checks: boolean | boolean[],
-
-  message: string
-) => {
+const throwExceptionIf = (config: unknown, checks: boolean | boolean[], message: string) => {
   const tests = Array.isArray(checks) ? checks : [checks];
   tests.forEach((test) => {
     if (test) {

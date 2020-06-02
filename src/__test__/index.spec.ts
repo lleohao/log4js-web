@@ -1,4 +1,4 @@
-import { getLogger, configure } from '../index';
+import { configure, getLogger } from '../index';
 
 describe('log4js test', () => {
   test('getLogger should defined', () => {

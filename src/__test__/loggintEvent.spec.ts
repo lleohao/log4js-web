@@ -1,6 +1,6 @@
+import { parse } from 'flatted';
 import { Levels } from '../levels';
 import { LoggingEvent } from '../loggingEvent';
-import { parse } from 'flatted';
 
 describe('LoggingEvent test', () => {
   test('LoggingEvent should be define', () => {
