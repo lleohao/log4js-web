@@ -1,7 +1,19 @@
 import { LoggingEvent } from './loggingEvent';
 
-const send = (loggingEvent: LoggingEvent) => {
-  // TODO: add send function
+type ListenerHandle = (loggingEvent: LoggingEvent) => void;
+
+const listeners: ListenerHandle[] = [];
+
+const sendToListeners = (loggingEvent: LoggingEvent) => {
+  listeners.forEach((l) => l(loggingEvent));
 };
 
-export { send };
+const send = (loggingEvent: LoggingEvent) => {
+  sendToListeners(loggingEvent);
+};
+
+const onMessage = (listener: ListenerHandle) => {
+  listeners.push(listener);
+};
+
+export { send, onMessage };
