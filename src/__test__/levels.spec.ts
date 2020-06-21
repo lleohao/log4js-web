@@ -8,23 +8,23 @@ function assertThat(level: Level) {
   }
 
   return {
-    isLessThanOrEqualTo(lvls: Array<Level | string>) {
-      assertForEach(true, level.isLessThanOrEqualTo, lvls);
+    isLessThanOrEqualTo(levels: Array<Level | string>) {
+      assertForEach(true, level.isLessThanOrEqualTo, levels);
     },
-    isNotLessThanOrEqualTo(lvls: Array<Level | string>) {
-      assertForEach(false, level.isLessThanOrEqualTo, lvls);
+    isNotLessThanOrEqualTo(levels: Array<Level | string>) {
+      assertForEach(false, level.isLessThanOrEqualTo, levels);
     },
-    isGreaterThanOrEqualTo(lvls: Array<Level | string>) {
-      assertForEach(true, level.isGreaterThanOrEqualTo, lvls);
+    isGreaterThanOrEqualTo(levels: Array<Level | string>) {
+      assertForEach(true, level.isGreaterThanOrEqualTo, levels);
     },
-    isNotGreaterThanOrEqualTo(lvls: Array<Level | string>) {
-      assertForEach(false, level.isGreaterThanOrEqualTo, lvls);
+    isNotGreaterThanOrEqualTo(levels: Array<Level | string>) {
+      assertForEach(false, level.isGreaterThanOrEqualTo, levels);
     },
-    isEqualTo(lvls: Array<Level | string>) {
-      assertForEach(true, level.isEqualTo, lvls);
+    isEqualTo(levels: Array<Level | string>) {
+      assertForEach(true, level.isEqualTo, levels);
     },
-    isNotEqualTo(lvls: Array<Level | string>) {
-      assertForEach(false, level.isEqualTo, lvls);
+    isNotEqualTo(levels: Array<Level | string>) {
+      assertForEach(false, level.isEqualTo, levels);
     },
   };
 }

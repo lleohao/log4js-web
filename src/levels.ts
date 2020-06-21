@@ -4,14 +4,14 @@ import { anInteger, anObject, not, throwExceptionIf, validIdentifier } from './u
 
 type LevelType = 'ALL' | 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL' | 'MARK' | 'OFF' | string;
 
+type SimilarLevel = string | Level | { levelStr: string };
+
 interface CustomLevel {
   value: number;
   colour: LayoutFontColor;
 }
 
-const validColours: LayoutFontColor[] = ['white', 'grey', 'black', 'blue', 'cyan', 'green', 'magenta', 'red', 'yellow'];
-
-const Levels: Record<LevelType, Level> = {};
+const BUILD_IN_LEVEL: Record<LevelType, Level> = {};
 
 class Level {
   static levels: Level[] = [];
@@ -27,7 +27,7 @@ class Level {
    * @param sArg - String value of Level OR Log4js.Level
    * @param [defaultLevel] - default Level, if no String representation
    */
-  static getLevel(sArg: string | Level | { levelStr: string }, defaultLevel?: Level): Level {
+  static getLevel(sArg: SimilarLevel, defaultLevel?: Level): Level {
     if (!sArg) {
       return defaultLevel;
     }
@@ -41,7 +41,7 @@ class Level {
       sArg = sArg.levelStr;
     }
 
-    return Levels[sArg.toString().toUpperCase()] || defaultLevel;
+    return BUILD_IN_LEVEL[sArg.toString().toUpperCase()] || defaultLevel;
   }
 
   static addLevels(customLevels: { [key: string]: CustomLevel }) {
@@ -50,14 +50,14 @@ class Level {
     levelKeys.forEach((key) => {
       const levelStr = key.toUpperCase();
 
-      Levels[levelStr] = new Level(customLevels[key].value, levelStr, customLevels[key].colour);
+      BUILD_IN_LEVEL[levelStr] = new Level(customLevels[key].value, levelStr, customLevels[key].colour);
 
       const existingLevelIndex = Level.levels.findIndex((lvl) => lvl.levelStr === levelStr);
 
       if (existingLevelIndex > -1) {
-        Level.levels[existingLevelIndex] = Levels[levelStr];
+        Level.levels[existingLevelIndex] = BUILD_IN_LEVEL[levelStr];
       } else {
-        Level.levels.push(Levels[levelStr]);
+        Level.levels.push(BUILD_IN_LEVEL[levelStr]);
       }
     });
 
@@ -68,25 +68,28 @@ class Level {
     return this.levelStr;
   }
 
-  isLessThanOrEqualTo(otherLevel: Level) {
-    if (typeof otherLevel === 'string') {
+  isLessThanOrEqualTo(otherLevel: SimilarLevel) {
+    if (!(otherLevel instanceof Level)) {
       otherLevel = Level.getLevel(otherLevel);
     }
-    return this.level <= otherLevel.level;
+
+    return this.level <= (otherLevel as Level).level;
   }
 
-  isGreaterThanOrEqualTo(otherLevel: Level) {
-    if (typeof otherLevel === 'string') {
+  isGreaterThanOrEqualTo(otherLevel: SimilarLevel) {
+    if (!(otherLevel instanceof Level)) {
       otherLevel = Level.getLevel(otherLevel);
     }
-    return this.level >= otherLevel.level;
+
+    return this.level >= (otherLevel as Level).level;
   }
 
-  isEqualTo(otherLevel: Level) {
-    if (typeof otherLevel === 'string') {
+  isEqualTo(otherLevel: SimilarLevel) {
+    if (!(otherLevel instanceof Level)) {
       otherLevel = Level.getLevel(otherLevel);
     }
-    return this.level === otherLevel.level;
+
+    return this.level === (otherLevel as Level).level;
   }
 }
 
@@ -106,28 +109,46 @@ Level.addLevels({
 // Custom level check
 addPreProcessingListener((config) => {
   const levelConfig = config.levels;
+  const validColours: LayoutFontColor[] = [
+    'white',
+    'grey',
+    'black',
+    'blue',
+    'cyan',
+    'green',
+    'magenta',
+    'red',
+    'yellow',
+  ];
 
   if (levelConfig) {
     throwExceptionIf(config, not(anObject(levelConfig)), 'levels must be an object');
+
     const newLevels = Object.keys(levelConfig);
+
     newLevels.forEach((levelName) => {
       throwExceptionIf(
         config,
         not(validIdentifier(levelName)),
         `level name "${levelName}" is not a valid identifier (must start with a letter, only contain A-Z,a-z,0-9,_)`
       );
+
       throwExceptionIf(config, not(anObject(levelConfig[levelName])), `level "${levelName}" must be an object`);
+
       throwExceptionIf(config, not(levelConfig[levelName].value), `level "${levelName}" must have a 'value' property`);
+
       throwExceptionIf(
         config,
         not(anInteger(levelConfig[levelName].value)),
         `level "${levelName}".value must have an integer value`
       );
+
       throwExceptionIf(
         config,
         not(levelConfig[levelName].colour),
         `level "${levelName}" must have a 'colour' property`
       );
+
       throwExceptionIf(
         config,
         not(validColours.indexOf(levelConfig[levelName].colour) > -1),
@@ -137,9 +158,8 @@ addPreProcessingListener((config) => {
   }
 });
 
-// Add custom levels
 addListener((config) => {
   Level.addLevels(config.levels);
 });
 
-export { Level, Levels, LevelType, CustomLevel };
+export { Level, BUILD_IN_LEVEL as Levels, LevelType, CustomLevel };
