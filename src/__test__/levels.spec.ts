@@ -1,3 +1,4 @@
+import { configure } from '../configure';
 import { Level, Levels } from '../levels';
 
 function assertThat(level: Level) {
@@ -333,6 +334,129 @@ describe('Levels', () => {
     expect(Level.getLevel('cheese')).toBeFalsy();
     expect(Level.getLevel('cheese', Levels.DEBUG)).toEqual(Levels.DEBUG);
 
-    expect(Level.getLevel({ level: 10000, levelStr: 'DEBUG', colour: 'cyan' })).toEqual(Levels.DEBUG);
+    expect(Level.getLevel('', Levels.DEBUG)).toEqual(Levels.DEBUG);
+    expect(Level.getLevel(Levels.DEBUG)).toEqual(Levels.DEBUG);
+    expect(Level.getLevel({ levelStr: 'DEBUG' })).toEqual(Levels.DEBUG);
+  });
+
+  test('toString', () => {
+    expect(Levels.DEBUG.toString()).toEqual('DEBUG');
+  });
+
+  describe('Configuration.levels check', () => {
+    test('levels should be an object', () => {
+      expect(() => {
+        configure({
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          levels: '',
+        });
+      }).toThrow('levels must be an object');
+    });
+
+    test('level name should contain A-Z,a-z,0-9,_', () => {
+      expect(() => {
+        configure({
+          levels: {
+            'a@': {
+              value: 1,
+              colour: 'white',
+            },
+          },
+        });
+      }).toThrow('level name "a@" is not a valid identifier (must start with a letter, only contain A-Z,a-z,0-9,_)');
+    });
+
+    test('level config should be an object', () => {
+      expect(() => {
+        configure({
+          levels: {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            name: '',
+          },
+        });
+      }).toThrow('level "name" must be an object');
+    });
+
+    test('level config should have value property', () => {
+      expect(() => {
+        configure({
+          levels: {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            name: {
+              colour: 'white',
+            },
+          },
+        });
+      }).toThrow(/level "name" must have a 'value' property/);
+    });
+
+    test('level config value should be an integer', () => {
+      expect(() => {
+        configure({
+          levels: {
+            name: {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              value: '1',
+            },
+          },
+        });
+      }).toThrow('level "name".value must have an integer value');
+    });
+
+    test('level config should have colour property', () => {
+      expect(() => {
+        configure({
+          levels: {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            name: {
+              value: 1,
+            },
+          },
+        });
+      }).toThrow(/level "name" must have a 'colour' property/);
+    });
+
+    test("level config colour property be one of ['white', 'grey' , 'black' , 'blue' , 'cyan' , 'green' , 'magenta' , 'red' , 'yellow']", () => {
+      expect(() => {
+        configure({
+          levels: {
+            name: {
+              value: 1,
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              colour: 'hhh',
+            },
+          },
+        });
+      }).toThrow(/level "name".colour must be one of white, grey, black, blue, cyan, green, magenta, red, yellow/);
+    });
+  });
+
+  test('addLevels', () => {
+    configure({
+      levels: {
+        custom: {
+          value: 1,
+          colour: 'white',
+        },
+        debug: {
+          value: 2,
+          colour: 'red',
+        },
+      },
+    });
+
+    expect(Levels['CUSTOM'].colour).toEqual('white');
+    expect(Levels['CUSTOM'].level).toEqual(1);
+    expect(Levels['CUSTOM'].levelStr).toEqual('CUSTOM');
+
+    expect(Levels['DEBUG'].colour).toEqual('red');
+    expect(Levels['DEBUG'].level).toEqual(2);
+    expect(Levels['DEBUG'].levelStr).toEqual('DEBUG');
   });
 });

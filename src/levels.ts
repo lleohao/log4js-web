@@ -121,7 +121,7 @@ addPreProcessingListener((config) => {
     'yellow',
   ];
 
-  if (levelConfig) {
+  if (levelConfig !== undefined) {
     throwExceptionIf(config, not(anObject(levelConfig)), 'levels must be an object');
 
     const newLevels = Object.keys(levelConfig);
