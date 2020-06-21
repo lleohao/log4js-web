@@ -30,5 +30,8 @@
   "license": "",
   "dependencies": {
     "date-format": "^3.0.0"
-  }
+  },
+  "sideEffects": [
+    "./dist/layouts.js"
+  ]
 }

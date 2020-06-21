@@ -57,14 +57,6 @@ describe('logger test', () => {
 
   describe('isLevelEnabled', () => {
     const logger = new Logger('cheese');
-    const functions = [
-      'isTraceEnabled',
-      'isDebugEnabled',
-      'isInfoEnabled',
-      'isWarnEnabled',
-      'isErrorEnabled',
-      'isFatalEnabled',
-    ];
 
     test('should provide a level enabled function for all levels', () => {
       expect(typeof logger['isTraceEnabled']).toEqual('function');

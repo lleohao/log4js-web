@@ -18,7 +18,7 @@ export interface Appender {
 
 export interface Configuration {
   categories?: Record<string, Category>;
-  levels?: { [key: string]: CustomLevel };
+  levels?: Record<string, CustomLevel>;
   appenders?: Record<string, Appender>;
 }
 

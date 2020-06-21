@@ -347,10 +347,6 @@ describe('layouts test', () => {
         return function (loggingEvent: LoggingEvent) {
           return `TEST LAYOUT >${loggingEvent.data}`;
         };
-
-        const serializer = layout('test_layout', 'test_config');
-        expect(serializer).toBeDefined();
-        expect(serializer({ data: 'INPUT' })).toEqual('TEST LAYOUT >INPUT');
       });
     });
   });

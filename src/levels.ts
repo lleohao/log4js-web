@@ -162,4 +162,4 @@ addListener((config) => {
   Level.addLevels(config.levels);
 });
 
-export { Level, BUILD_IN_LEVEL as Levels, LevelType, CustomLevel };
+export { Level, BUILD_IN_LEVEL as Levels, LevelType, CustomLevel, SimilarLevel };

@@ -1,19 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-ts-comment */
 import { getLevelForCategory, setLevelForCategory } from './categories';
 import { send } from './clustering';
-import { Level, Levels } from './levels';
+import { Level, Levels, SimilarLevel } from './levels';
 import { LoggingEvent } from './loggingEvent';
 
 /**
  * Logger to log messages.
- * use {@see log4js#getLogger(String)} to get an instance.
  *
  * @name Logger
  * @param name name of category to log to
  * @param level - the loglevel for the category
  * @param dispatch - the function which will receive the logevents
- *
- * @author Stephan Strittmatter
  */
 class Logger {
   public category: string;
@@ -28,20 +25,12 @@ class Logger {
     this.context = {};
   }
 
-  get level(): string | Level | { levelStr: string } {
+  get level(): SimilarLevel {
     return Level.getLevel(getLevelForCategory(this.category), Levels.TRACE);
   }
 
-  set level(level: string | Level | { levelStr: string }) {
+  set level(level: SimilarLevel) {
     setLevelForCategory(this.category, Level.getLevel(level));
-  }
-
-  log(level: string | Level | { levelStr: string }, ...args: any[]): void {
-    const logLevel = Level.getLevel(level, Levels.INFO);
-
-    if (this.isLevelEnable(logLevel)) {
-      this._log(logLevel, args);
-    }
   }
 
   public isLevelEnable(otherLevel: Level): boolean {
@@ -106,6 +95,14 @@ class Logger {
 
   public fatal(...args: any[]) {
     this.log(Levels.FATAL, ...args);
+  }
+
+  private log(level: SimilarLevel, ...args: any[]): void {
+    const logLevel = Level.getLevel(level, Levels.INFO);
+
+    if (this.isLevelEnable(logLevel)) {
+      this._log(logLevel, args);
+    }
   }
 
   private _log(level: Level, data: any[]): void {
