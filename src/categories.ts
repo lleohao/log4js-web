@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { appenders } from './appenders';
+import { appenders } from './appenders/appenders';
 import { addPreProcessingListener, Configuration } from './configure';
 import { Level, LevelType } from './levels';
 import { anObject, not, throwExceptionIf } from './utils';
