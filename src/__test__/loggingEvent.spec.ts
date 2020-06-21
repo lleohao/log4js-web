@@ -8,19 +8,22 @@ describe('LoggingEvent test', () => {
   });
 
   test('should serialise to flatted', () => {
-    const event = new LoggingEvent('cheese', Levels.DEBUG, ['log message'], {
+    const event = new LoggingEvent('cheese', Levels.DEBUG, ['log message', new Error('test')], {
       user: 'bob',
     });
     event.startTime = new Date(Date.UTC(1994, 8, 10, 1, 3, 10));
 
-    const rehydratedEvent = parse(event.serialise()) as LoggingEvent;
+    const loggingEvent = parse(event.serialise()) as LoggingEvent;
 
-    expect(rehydratedEvent.startTime).toEqual('1994-09-10T01:03:10.000Z');
-    expect(rehydratedEvent.categoryName).toEqual('cheese');
-    expect(rehydratedEvent.level.levelStr).toEqual('DEBUG');
-    expect(rehydratedEvent.data.length).toEqual(1);
-    expect(rehydratedEvent.data[0]).toEqual('log message');
-    expect(rehydratedEvent.context.user).toEqual('bob');
+    expect(loggingEvent.startTime).toEqual('1994-09-10T01:03:10.000Z');
+    expect(loggingEvent.categoryName).toEqual('cheese');
+    expect(loggingEvent.level.levelStr).toEqual('DEBUG');
+    expect(loggingEvent.data.length).toEqual(2);
+    expect(loggingEvent.data[0]).toEqual('log message');
+    expect(loggingEvent.data[1]).toMatchObject({
+      message: 'test',
+    });
+    expect(loggingEvent.context.user).toEqual('bob');
   });
 
   test('should correct construct with/without location info', () => {
