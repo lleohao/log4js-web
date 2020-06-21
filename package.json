@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "tsc -p src/tsconfig.json -w",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
     "test": "jest --coverage",
     "lint": "eslint . --ext .ts"
   },
@@ -20,6 +20,7 @@
     "flatted": "^3.0.2",
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
     "ts-jest": "^26.0.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.3"

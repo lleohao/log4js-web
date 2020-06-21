@@ -1,8 +1,8 @@
 {
-    "extends": "../tsconfig.json",
-    "compilerOptions": {
-        "sourceMap": false,
-        "declaration": true,
-        "outDir": "dist"
-    }
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": false,
+    "declaration": true,
+    "outDir": "dist"
+  }
 }
