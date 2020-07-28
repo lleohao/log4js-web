@@ -41,14 +41,14 @@ class Level {
 // Init builtin Level
 const BUILD_IN_LEVEL: Record<LevelType, Level> = {
   ALL: new Level(Number.MIN_VALUE, 'ALL', 'grey'),
+  TRACE: new Level(5000, 'TRACE', 'blue'),
   DEBUG: new Level(10000, 'DEBUG', 'cyan'),
+  INFO: new Level(20000, 'INFO', 'green'),
+  WARN: new Level(30000, 'WARN', 'yellow'),
   ERROR: new Level(40000, 'ERROR', 'red'),
   FATAL: new Level(50000, 'FATAL', 'magenta'),
-  INFO: new Level(20000, 'INFO', 'green'),
   MARK: new Level(9007199254740992, 'MARK', 'grey'),
   OFF: new Level(Number.MAX_VALUE, 'OFF', 'grey'),
-  TRACE: new Level(5000, 'TRACE', 'blue'),
-  WARN: new Level(30000, 'WARN', 'yellow'),
 };
 
 export { Level, BUILD_IN_LEVEL as Levels, LevelType };
