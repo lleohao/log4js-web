@@ -38,14 +38,22 @@ const styles: Record<LayoutStyle, number[]> = {
   cyan: [36, 39],
   green: [32, 39],
   magenta: [35, 39],
-  red: [91, 39],
+  red: [31, 39],
   yellow: [33, 39],
 };
 
+/**
+ * Add start of colorize
+ * @param style
+ */
 function colorizeStart(style?: LayoutStyle) {
   return style ? `\x1B[${styles[style][0]}m` : '';
 }
 
+/**
+ * Add end of colorize
+ * @param style
+ */
 function colorizeEnd(style?: LayoutStyle) {
   return style ? `\x1B[${styles[style][1]}m` : '';
 }
