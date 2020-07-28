@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Category } from './categories';
 import { LayoutType } from './layouts';
-import { CustomLevel } from './levels';
 import { anObject, not, throwExceptionIf } from './utils';
 
 export type ListenerHandle = (config: Configuration) => void;
@@ -18,7 +17,6 @@ export interface Appender {
 
 export interface Configuration {
   categories?: Record<string, Category>;
-  levels?: Record<string, CustomLevel>;
   appenders?: Record<string, Appender>;
 }
 
