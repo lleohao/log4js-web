@@ -1,4 +1,4 @@
-import { Level, Levels } from '../levels';
+import { Level, Levels, LevelType } from '../levels';
 
 function assertThat(level: Level) {
   function assertForEach(assertion: boolean, testFn: (level: Level) => boolean, otherLevels: Array<Level | string>) {
@@ -310,5 +310,15 @@ describe('Levels', () => {
 
   test('toString', () => {
     expect(Levels.DEBUG.toString()).toEqual('DEBUG');
+  });
+
+  test('getLevel', () => {
+    ['ALL', 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL', 'MARK', 'OFF'].forEach((level) => {
+      expect(Level.getLevel(level as LevelType).levelStr).toEqual(level);
+    });
+
+    expect(() => {
+      Level.getLevel('OTHER' as LevelType);
+    }).toThrow("OTHER isn't one of ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, MARK, OF");
   });
 });

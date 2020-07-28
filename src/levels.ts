@@ -11,6 +11,16 @@ class Level {
     this.colour = colour;
   }
 
+  static getLevel(level: LevelType) {
+    const levelInstance = BUILD_IN_LEVEL[level];
+
+    if (!levelInstance) {
+      throw new Error(`${level} isn't one of ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, MARK, OFF`);
+    }
+
+    return levelInstance;
+  }
+
   toString() {
     return this.levelStr;
   }
