@@ -29,9 +29,8 @@ export interface AppenderConfig {
 /**
  * build-in appender
  */
-const APPENDERS: Record<string, Appender> = {
-  console: consoleAppender,
-};
+const APPENDERS: Map<string, Appender> = new Map<string, Appender>();
+APPENDERS.set('console', consoleAppender);
 
 /**
  * get appender
@@ -40,9 +39,9 @@ const APPENDERS: Record<string, Appender> = {
 export const getAppender = (appenderConfig?: AppenderConfig): Appender => {
   const { type } = appenderConfig;
 
-  if (!APPENDERS[type]) {
-    APPENDERS[type] = new Appender(appenderConfig.configure, appenderConfig.layout, appenderConfig.level);
+  if (!APPENDERS.has(type)) {
+    APPENDERS.set(type, new Appender(appenderConfig.configure, appenderConfig.layout, appenderConfig.level));
   }
 
-  return APPENDERS[type];
+  return APPENDERS.get(type);
 };
