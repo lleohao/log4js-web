@@ -1,5 +1,6 @@
-import { CategoryConfigure } from '../categories';
-import { setupCategories } from '../categories';
+import { isBuildInAppender } from './appenders';
+import { CategoryConfigure } from './categories';
+import { setupCategories } from './categories';
 import { inspect } from 'util';
 
 const not = (thing: unknown) => !thing;
@@ -60,9 +61,9 @@ const configure = (configuration: Configuration) => {
         `appender "${inspect(appender)}" is not valid (must be an object with property "type")`
       );
 
-      if (appender.type !== 'default') {
+      if (!isBuildInAppender(appender.type)) {
         /**
-         * check category must define type property
+         * check custom category must define type configure
          */
         throwExceptionIf(
           configuration,
