@@ -40,10 +40,6 @@ export const APPENDERS: Record<string, Appender> = {
 export const getAppender = (appenderConfig?: AppenderConfig): Appender => {
   const { type } = appenderConfig;
 
-  if (!type) {
-    throw new Error(`AppenderConfig must set type property`);
-  }
-
   if (!APPENDERS[type]) {
     APPENDERS[type] = new Appender(appenderConfig.configure, appenderConfig.layout, appenderConfig.level);
   }
