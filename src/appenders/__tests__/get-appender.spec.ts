@@ -9,12 +9,6 @@ describe('getAppender', () => {
     expect(getAppender({ type: 'console' })).toEqual(consoleAppender);
   });
 
-  test('get exits appender without configure', () => {
-    expect(() => {
-      getAppender({ type: 'other' });
-    }).toThrowError();
-  });
-
   test('get exits appender with configure', () => {
     const configure = jest.fn();
 
