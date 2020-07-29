@@ -2,11 +2,16 @@
   "name": "log4js-web",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "module": "module/index.js",
+  "files": [
+    "lib",
+    "module"
+  ],
   "scripts": {
     "dev": "tsc -p src/tsconfig.json -w",
-    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "build": "rimraf lib && rimraf module && tsc -p tsconfig.build.esm.json",
     "test": "jest --coverage",
     "lint": "eslint . --ext .ts"
   },
@@ -31,7 +36,5 @@
   "dependencies": {
     "date-format": "^3.0.0"
   },
-  "sideEffects": [
-    "./dist/layouts.js"
-  ]
+  "sideEffects": false
 }
