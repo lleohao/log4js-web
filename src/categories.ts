@@ -1,5 +1,4 @@
-import { AppenderConfig, getAppender } from './appenders';
-import { Appender } from './appenders/appender';
+import { AppenderConfig, getAppender, Appender } from './appenders';
 import { Configuration } from './configure';
 
 /**
