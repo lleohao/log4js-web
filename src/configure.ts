@@ -7,9 +7,11 @@ const not = (thing: unknown) => !thing;
 
 const anObject = (thing: unknown) => thing && typeof thing === 'object' && !Array.isArray(thing);
 
-export const anFunction = (thing: unknown): boolean => thing && typeof thing === 'function';
+const anArray = (thing: unknown): boolean => thing && Array.isArray(thing);
 
-export const throwExceptionIf = (config: unknown, checks: boolean | boolean[], message: string): void => {
+const anFunction = (thing: unknown): boolean => thing && typeof thing === 'function';
+
+const throwExceptionIf = (config: unknown, checks: boolean | boolean[], message: string): void => {
   const tests = Array.isArray(checks) ? checks : [checks];
   tests.forEach((test) => {
     if (test) {
@@ -22,15 +24,18 @@ export const throwExceptionIf = (config: unknown, checks: boolean | boolean[], m
   });
 };
 
+/**
+ * log4js-web configuration
+ */
 export interface Configuration {
   categories?: Record<string, CategoryConfigure>;
 }
 
-const configure = (configuration: Configuration) => {
+export const configure = (configuration: Configuration): void => {
   /**
    * check configuration is an object
    */
-  throwExceptionIf(configuration, not(anObject(configure)), 'must be an object.');
+  throwExceptionIf(configuration, not(anObject(configuration)), 'must be an object.');
 
   /**
    * check categories is an object
@@ -41,7 +46,7 @@ const configure = (configuration: Configuration) => {
    * check must define at least on categories
    */
   const categoryNames = Object.keys(configuration.categories);
-  throwExceptionIf(configuration, not(categoryNames.length), 'must define at least one categories.');
+  throwExceptionIf(configuration, not(categoryNames.length), 'must define at least one category.');
 
   categoryNames.forEach((category) => {
     const categoryConfigure = configuration.categories[category];
@@ -49,7 +54,17 @@ const configure = (configuration: Configuration) => {
     /**
      * check category must define at least one appender
      */
-    throwExceptionIf(configuration, not(categoryConfigure.appenders.length), 'must define at least one appender.');
+    throwExceptionIf(
+      configuration,
+      not(anArray(categoryConfigure.appenders)),
+      `category ${inspect(categoryConfigure)} is not valid (must be an object with property "appenders").`
+    );
+
+    throwExceptionIf(
+      configuration,
+      not(categoryConfigure.appenders.length),
+      `category ${inspect(categoryConfigure)} is not valid (must define at least one appender).`
+    );
 
     categoryConfigure.appenders.forEach((appender) => {
       /**
@@ -58,7 +73,7 @@ const configure = (configuration: Configuration) => {
       throwExceptionIf(
         configuration,
         not(appender.type),
-        `appender "${inspect(appender)}" is not valid (must be an object with property "type")`
+        `appender ${inspect(appender)} is not valid (must be an object with property "type").`
       );
 
       if (!isBuildInAppender(appender.type)) {
@@ -68,7 +83,7 @@ const configure = (configuration: Configuration) => {
         throwExceptionIf(
           configuration,
           not(anFunction(appender.configure)),
-          `appender "${inspect(appender)}" is not valid (must be an object with function property "configure")`
+          `appender "${inspect(appender)}" is not valid (must be an object with function property "configure").`
         );
       }
     });
@@ -76,5 +91,3 @@ const configure = (configuration: Configuration) => {
 
   setupCategories(configuration);
 };
-
-export { configure };
