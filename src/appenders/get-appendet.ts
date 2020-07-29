@@ -29,7 +29,7 @@ export interface AppenderConfig {
 /**
  * build-in appender
  */
-export const APPENDERS: Record<string, Appender> = {
+const APPENDERS: Record<string, Appender> = {
   console: consoleAppender,
 };
 

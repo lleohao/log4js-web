@@ -28,6 +28,12 @@ describe('Appender', () => {
     expect(appender.layout).toEqual(basicLayout);
   });
 
+  test('custom level', () => {
+    const appender = new Appender(defaultAppenderOut, colouredLayout, 'ERROR');
+
+    expect(appender.level).toEqual(Levels.ERROR);
+  });
+
   test('appenderOut', () => {
     const appenderOutMock = jest.fn((_, layout) => {
       layout();
