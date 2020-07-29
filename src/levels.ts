@@ -11,8 +11,12 @@ class Level {
     this.colour = colour;
   }
 
-  static getLevel(level: LevelType) {
-    const levelInstance = BUILD_IN_LEVEL[level];
+  static getLevel(level: LevelType | Level, defaultLevel?: Level): Level {
+    if (level instanceof Level) {
+      return level;
+    }
+
+    const levelInstance = BUILD_IN_LEVEL[level] || defaultLevel;
 
     if (!levelInstance) {
       throw new Error(`${level} isn't one of ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, MARK, OFF`);
