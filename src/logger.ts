@@ -1,5 +1,5 @@
 import { Category, getCategoryByCategoryName } from './categories';
-import { Level, Levels, LevelType } from './levels';
+import { Level, Levels } from './levels';
 import { LoggingEvent } from './loggingEvent';
 
 /**
@@ -60,13 +60,7 @@ export class Logger {
   }
 
   private log(level: Level, ...args: any[]): void {
-    const logLevel = Level.getLevel(level, Levels.INFO);
-
-    this._log(logLevel, args);
-  }
-
-  private _log(level: Level, data: any[]): void {
-    const loggingEvent = new LoggingEvent(this.category.name, level, data, this.context);
+    const loggingEvent = new LoggingEvent(this.category.name, level, args, this.context);
 
     this.category.appenders.forEach((appender) => {
       appender.appenderOut(loggingEvent);
