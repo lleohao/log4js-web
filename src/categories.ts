@@ -3,7 +3,7 @@ import { Appender } from './appenders/appender';
 import { Configuration } from './configure/configure';
 import { Level, LevelType } from './levels';
 
-export interface CategoryConfigure {
+interface CategoryConfigure {
   appenders: AppenderConfig[];
   level?: LevelType;
 }
@@ -52,29 +52,4 @@ const getCategoryByCategoryName = (category?: string): Category => {
   return categories.get('default');
 };
 
-/**
- * get category appenders by category name
- * @param category
- */
-const getAppendersByCategoryName = (category: string) => getCategoryByCategoryName(category).appenders;
-
-/**
- * get category level by category name
- * @param category
- */
-const getLevelByCategoryName = (category: string) => getCategoryByCategoryName(category).level;
-
-/**
- * set category level by category name
- * @param category
- * @param level
- */
-const setLevelByCategoryName = (category: string, level: Level) => {
-  const categoryConfig = categories.get(category);
-
-  if (categoryConfig) {
-    categoryConfig.level = level;
-  }
-};
-
-export { setupCategories, getAppendersByCategoryName, getLevelByCategoryName, setLevelByCategoryName };
+export { Category, CategoryConfigure, setupCategories, getCategoryByCategoryName };

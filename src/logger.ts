@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/ban-ts-comment */
-import { getLevelForCategory, setLevelForCategory } from './categories';
-import { send } from './clustering';
-import { Level, Levels, SimilarLevel } from './levels';
+import { Category, getCategoryByCategoryName } from './categories';
+import { Level, Levels, LevelType } from './levels';
 import { LoggingEvent } from './loggingEvent';
+
+type LoggerLevel = Level | LevelType;
 
 /**
  * Logger to log messages.
@@ -12,32 +12,32 @@ import { LoggingEvent } from './loggingEvent';
  * @param level - the loglevel for the category
  * @param dispatch - the function which will receive the logevents
  */
-class Logger {
-  public category: string;
+export class Logger {
+  public category: Category;
   private context: Record<string, any>;
 
-  constructor(name: string) {
+  constructor(name: string, context: Record<string, unknown> = {}) {
     if (!name) {
       throw new Error('No category provided.');
     }
 
-    this.category = name;
-    this.context = {};
+    this.category = getCategoryByCategoryName(name);
+    this.context = context;
   }
 
-  get level(): SimilarLevel {
-    return Level.getLevel(getLevelForCategory(this.category), Levels.TRACE);
+  get level(): LoggerLevel {
+    return this.category.level;
   }
 
-  set level(level: SimilarLevel) {
-    setLevelForCategory(this.category, Level.getLevel(level));
+  set level(level: LoggerLevel) {
+    this.category.level = Level.getLevel(level);
   }
 
   public isLevelEnable(otherLevel: Level): boolean {
-    return (this.level as Level).isLessThanOrEqualTo(otherLevel);
+    return this.category.level.isLessThanOrEqualTo(otherLevel);
   }
 
-  public addContext(key: string, value: any): void {
+  public addContext(key: string, value: unknown): void {
     this.context[key] = value;
   }
 
@@ -49,55 +49,55 @@ class Logger {
     this.context = {};
   }
 
-  public isTraceEnabled() {
+  public isTraceEnabled(): boolean {
     return this.isLevelEnable(Levels.TRACE);
   }
 
-  public isDebugEnabled() {
+  public isDebugEnabled(): boolean {
     return this.isLevelEnable(Levels.DEBUG);
   }
 
-  public isInfoEnabled() {
+  public isInfoEnabled(): boolean {
     return this.isLevelEnable(Levels.INFO);
   }
 
-  public isWarnEnabled() {
+  public isWarnEnabled(): boolean {
     return this.isLevelEnable(Levels.WARN);
   }
 
-  public isErrorEnabled() {
+  public isErrorEnabled(): boolean {
     return this.isLevelEnable(Levels.ERROR);
   }
 
-  public isFatalEnabled() {
+  public isFatalEnabled(): boolean {
     return this.isLevelEnable(Levels.FATAL);
   }
 
-  public trace(...args: any[]) {
+  public trace(...args: any[]): void {
     this.log(Levels.TRACE, ...args);
   }
 
-  public debug(...args: any[]) {
+  public debug(...args: any[]): void {
     this.log(Levels.DEBUG, ...args);
   }
 
-  public info(...args: any[]) {
+  public info(...args: any[]): void {
     this.log(Levels.INFO, ...args);
   }
 
-  public warn(...args: any[]) {
+  public warn(...args: any[]): void {
     this.log(Levels.WARN, ...args);
   }
 
-  public error(...args: any[]) {
+  public error(...args: any[]): void {
     this.log(Levels.ERROR, ...args);
   }
 
-  public fatal(...args: any[]) {
+  public fatal(...args: any[]): void {
     this.log(Levels.FATAL, ...args);
   }
 
-  private log(level: SimilarLevel, ...args: any[]): void {
+  private log(level: Level, ...args: any[]): void {
     const logLevel = Level.getLevel(level, Levels.INFO);
 
     if (this.isLevelEnable(logLevel)) {
@@ -106,9 +106,10 @@ class Logger {
   }
 
   private _log(level: Level, data: any[]): void {
-    const loggingEvent = new LoggingEvent(this.category, level, data, this.context);
-    send(loggingEvent);
+    const loggingEvent = new LoggingEvent(this.category.name, level, data, this.context);
+
+    this.category.appenders.forEach((appender) => {
+      appender.appenderOut(loggingEvent);
+    });
   }
 }
-
-export { Logger };
