@@ -1,7 +1,6 @@
 import { CategoryConfigure } from '../categories';
-
 import { configureChecker } from './configure-checker';
-import { setup } from './setup';
+import { setupCategories } from '../categories';
 
 export interface Configuration {
   categories?: Record<string, CategoryConfigure>;
@@ -10,7 +9,7 @@ export interface Configuration {
 const configure = (configuration: Configuration) => {
   configureChecker(configuration);
 
-  setup(configuration);
+  setupCategories(configuration);
 };
 
 export { configure };

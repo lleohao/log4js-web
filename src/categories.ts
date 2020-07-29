@@ -52,4 +52,15 @@ const getCategoryByCategoryName = (category?: string): Category => {
   return categories.get('default');
 };
 
+/**
+ * Set default category
+ */
+categories.set(
+  'default',
+  new Category('default', {
+    appenders: [{ type: 'console' }],
+    level: 'ALL',
+  })
+);
+
 export { Category, CategoryConfigure, setupCategories, getCategoryByCategoryName };

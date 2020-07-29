@@ -13,7 +13,7 @@ type LoggerLevel = Level | LevelType;
  * @param dispatch - the function which will receive the logevents
  */
 export class Logger {
-  public category: Category;
+  private category: Category;
   private context: Record<string, any>;
 
   constructor(name: string, context: Record<string, unknown> = {}) {
@@ -33,10 +33,6 @@ export class Logger {
     this.category.level = Level.getLevel(level);
   }
 
-  public isLevelEnable(otherLevel: Level): boolean {
-    return this.category.level.isLessThanOrEqualTo(otherLevel);
-  }
-
   public addContext(key: string, value: unknown): void {
     this.context[key] = value;
   }
@@ -47,30 +43,6 @@ export class Logger {
 
   public clearContext(): void {
     this.context = {};
-  }
-
-  public isTraceEnabled(): boolean {
-    return this.isLevelEnable(Levels.TRACE);
-  }
-
-  public isDebugEnabled(): boolean {
-    return this.isLevelEnable(Levels.DEBUG);
-  }
-
-  public isInfoEnabled(): boolean {
-    return this.isLevelEnable(Levels.INFO);
-  }
-
-  public isWarnEnabled(): boolean {
-    return this.isLevelEnable(Levels.WARN);
-  }
-
-  public isErrorEnabled(): boolean {
-    return this.isLevelEnable(Levels.ERROR);
-  }
-
-  public isFatalEnabled(): boolean {
-    return this.isLevelEnable(Levels.FATAL);
   }
 
   public trace(...args: any[]): void {
@@ -95,6 +67,34 @@ export class Logger {
 
   public fatal(...args: any[]): void {
     this.log(Levels.FATAL, ...args);
+  }
+
+  private isLevelEnable(otherLevel: Level): boolean {
+    return this.category.level.isLessThanOrEqualTo(otherLevel);
+  }
+
+  private isTraceEnabled(): boolean {
+    return this.isLevelEnable(Levels.TRACE);
+  }
+
+  private isDebugEnabled(): boolean {
+    return this.isLevelEnable(Levels.DEBUG);
+  }
+
+  private isInfoEnabled(): boolean {
+    return this.isLevelEnable(Levels.INFO);
+  }
+
+  private isWarnEnabled(): boolean {
+    return this.isLevelEnable(Levels.WARN);
+  }
+
+  private isErrorEnabled(): boolean {
+    return this.isLevelEnable(Levels.ERROR);
+  }
+
+  private isFatalEnabled(): boolean {
+    return this.isLevelEnable(Levels.FATAL);
   }
 
   private log(level: Level, ...args: any[]): void {
