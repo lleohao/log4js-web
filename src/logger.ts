@@ -2,8 +2,6 @@ import { Category, getCategoryByCategoryName } from './categories';
 import { Level, Levels, LevelType } from './levels';
 import { LoggingEvent } from './loggingEvent';
 
-type LoggerLevel = Level | LevelType;
-
 /**
  * Logger to log messages.
  *
@@ -23,14 +21,6 @@ export class Logger {
 
     this.category = getCategoryByCategoryName(name);
     this.context = context;
-  }
-
-  get level(): LoggerLevel {
-    return this.category.level;
-  }
-
-  set level(level: LoggerLevel) {
-    this.category.level = Level.getLevel(level);
   }
 
   public addContext(key: string, value: unknown): void {
@@ -69,40 +59,10 @@ export class Logger {
     this.log(Levels.FATAL, ...args);
   }
 
-  private isLevelEnable(otherLevel: Level): boolean {
-    return this.category.level.isLessThanOrEqualTo(otherLevel);
-  }
-
-  private isTraceEnabled(): boolean {
-    return this.isLevelEnable(Levels.TRACE);
-  }
-
-  private isDebugEnabled(): boolean {
-    return this.isLevelEnable(Levels.DEBUG);
-  }
-
-  private isInfoEnabled(): boolean {
-    return this.isLevelEnable(Levels.INFO);
-  }
-
-  private isWarnEnabled(): boolean {
-    return this.isLevelEnable(Levels.WARN);
-  }
-
-  private isErrorEnabled(): boolean {
-    return this.isLevelEnable(Levels.ERROR);
-  }
-
-  private isFatalEnabled(): boolean {
-    return this.isLevelEnable(Levels.FATAL);
-  }
-
   private log(level: Level, ...args: any[]): void {
     const logLevel = Level.getLevel(level, Levels.INFO);
 
-    if (this.isLevelEnable(logLevel)) {
-      this._log(logLevel, args);
-    }
+    this._log(logLevel, args);
   }
 
   private _log(level: Level, data: any[]): void {
