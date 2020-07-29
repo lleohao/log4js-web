@@ -13,10 +13,6 @@ export class Appender {
   private readonly _appenderOut: AppenderOut;
 
   constructor(appenderOut: AppenderOut, layout = colouredLayout, level: LevelType = 'ALL') {
-    if (!appenderOut || typeof appenderOut !== 'function') {
-      throw new Error('Appender out must be function');
-    }
-
     this._appenderOut = appenderOut;
     this.level = Level.getLevel(level);
     this.layout = layout;

@@ -7,14 +7,6 @@ describe('Appender', () => {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const defaultAppenderOut = () => {};
 
-  test('must set appenderOut', () => {
-    expect(() => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      new Appender();
-    }).toThrowError('Appender out must be function');
-  });
-
   test('default property', () => {
     const appender = new Appender(defaultAppenderOut);
 

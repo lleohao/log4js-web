@@ -52,13 +52,24 @@ const configure = (configuration: Configuration) => {
 
     categoryConfigure.appenders.forEach((appender) => {
       /**
-       * check category must define at least one appender
+       * check category must define type property
        */
       throwExceptionIf(
         configuration,
         not(appender.type),
         `appender "${inspect(appender)}" is not valid (must be an object with property "type")`
       );
+
+      if (appender.type !== 'default') {
+        /**
+         * check category must define type property
+         */
+        throwExceptionIf(
+          configuration,
+          not(anFunction(appender.configure)),
+          `appender "${inspect(appender)}" is not valid (must be an object with function property "configure")`
+        );
+      }
     });
   });
 
