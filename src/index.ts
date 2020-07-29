@@ -1,6 +1,5 @@
 export { Category } from './categories';
-export { Configuration } from './configure';
-export { LayoutType, LayoutConfig } from './layouts';
+export { Configuration } from './configure/configure';
 export { LevelType } from './levels';
 
-export { getLogger, configure, addLayout } from './log4js';
+export { getLogger, configure, logger } from './log4js';
