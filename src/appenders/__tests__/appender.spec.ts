@@ -22,12 +22,6 @@ describe('Appender', () => {
     expect(appender.layout).toEqual(colouredLayout);
   });
 
-  test('custom level', () => {
-    const appender = new Appender(defaultAppenderOut, colouredLayout, 'ERROR');
-
-    expect(appender.level).toEqual(Levels.ERROR);
-  });
-
   test('custom layout', () => {
     const appender = new Appender(defaultAppenderOut, basicLayout);
 

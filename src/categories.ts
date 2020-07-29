@@ -1,21 +1,17 @@
 import { AppenderConfig, getAppender } from './appenders';
 import { Appender } from './appenders/appender';
 import { Configuration } from './configure/configure';
-import { Level, LevelType } from './levels';
 
 interface CategoryConfigure {
   appenders: AppenderConfig[];
-  level?: LevelType;
 }
 
 class Category {
   public name: string;
-  public level: Level;
   public appenders: Appender[] = [];
 
   constructor(name: string, configure: CategoryConfigure) {
     this.name = name;
-    this.level = Level.getLevel(configure.level || 'ALL');
 
     this.appenders = configure.appenders.map((appenderConfig) => {
       return getAppender(appenderConfig);
@@ -59,7 +55,6 @@ categories.set(
   'default',
   new Category('default', {
     appenders: [{ type: 'console' }],
-    level: 'ALL',
   })
 );
 
