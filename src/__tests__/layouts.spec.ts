@@ -11,7 +11,7 @@ describe('layouts test', () => {
         level: Levels.ERROR,
       });
 
-      expect(output).toEqual('\x1B[91m[1994-10-10T10:46:45.000] [ERROR] cheese - \x1B[39mnonsense');
+      expect(output).toEqual('\x1B[31m[1994-10-10T10:46:45.000] [ERROR] cheese - \x1B[39mnonsense');
     });
 
     test('should support the console.log format for the message', () => {
@@ -22,7 +22,7 @@ describe('layouts test', () => {
         level: Levels.ERROR,
       });
 
-      expect(output).toEqual('\x1B[91m[2010-12-05T14:18:30.045] [ERROR] cheese - \x1B[39mthing 2');
+      expect(output).toEqual('\x1B[31m[2010-12-05T14:18:30.045] [ERROR] cheese - \x1B[39mthing 2');
     });
   });
 
