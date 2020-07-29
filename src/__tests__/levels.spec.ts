@@ -320,5 +320,7 @@ describe('Levels', () => {
     expect(() => {
       Level.getLevel('OTHER' as LevelType);
     }).toThrow("OTHER isn't one of ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, MARK, OF");
+
+    expect(Level.getLevel(Levels.FATAL)).toEqual(Levels.FATAL);
   });
 });
