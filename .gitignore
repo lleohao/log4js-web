@@ -5,6 +5,7 @@ coverage/
 out-ts/
 dist/
 lib/
+module/
 example/
 
 node_modules/

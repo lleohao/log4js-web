@@ -5,9 +5,10 @@
     "noImplicitAny": true,
     "outDir": "out-ts",
     "sourceMap": true,
-    "declaration": false
+    "allowJs": true,
+    "skipLibCheck": true,
+    "moduleResolution": "Node"
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["src"]
 }
