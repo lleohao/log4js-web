@@ -1,17 +1,21 @@
 import { AppenderConfig, getAppender } from './appenders';
 import { Appender } from './appenders/appender';
 import { Configuration } from './configure/configure';
+import { Level, Levels, LevelType } from './levels';
 
 interface CategoryConfigure {
   appenders: AppenderConfig[];
+  level?: LevelType;
 }
 
 class Category {
   public name: string;
   public appenders: Appender[] = [];
+  public level: Level;
 
   constructor(name: string, configure: CategoryConfigure) {
     this.name = name;
+    this.level = Level.getLevel(configure.level, Levels.ALL);
 
     this.appenders = configure.appenders.map((appenderConfig) => {
       return getAppender(appenderConfig);
