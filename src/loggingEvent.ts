@@ -1,43 +1,20 @@
 import { stringify } from 'flatted';
 import { Level } from './levels';
 
-interface LoggingLocation {
-  functionName?: string;
-  fileName: string;
-  lineNumber: number;
-  columnNumber: number;
-  callStack: string;
-}
-
-export class LoggingEvent implements LoggingLocation {
+export class LoggingEvent {
   startTime: Date;
-  functionName: string;
-  fileName: string;
-  lineNumber: number;
-  columnNumber: number;
-  callStack: string;
 
   constructor(
     public categoryName: string,
     public level: Level,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public data: Array<any>,
-    public context: Record<string, unknown> = {},
-    location?: LoggingLocation
+    public context: Record<string, any> = {}
   ) {
     this.startTime = new Date();
     this.categoryName = categoryName;
     this.data = data;
     this.level = level;
     this.context = Object.assign({}, context);
-
-    if (location) {
-      this.functionName = location.functionName;
-      this.fileName = location.fileName;
-      this.lineNumber = location.lineNumber;
-      this.columnNumber = location.columnNumber;
-      this.callStack = location.callStack;
-    }
   }
 
   serialise(): string {
