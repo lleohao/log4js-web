@@ -1,4 +1,4 @@
-# log4js-web
+# @rwdt/log4js
 
 A port of log4js to browser 
 

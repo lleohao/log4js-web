@@ -1,5 +1,5 @@
 {
-  "name": "log4js-web",
+  "name": "@rwdt/log4js",
   "version": "0.0.1",
   "description": "",
   "main": "lib/index.js",
