@@ -6,12 +6,12 @@
   "types": "lib/index.d.ts",
   "module": "module/index.js",
   "files": [
-    "lib",
-    "module"
+    "lib"
   ],
   "scripts": {
-    "dev": "tsc -p src/tsconfig.json -w",
-    "build": "rimraf lib && rimraf module && tsc -p tsconfig.build.esm.json",
+    "dev": "tsc -p tsconfig.json -w",
+    "build": "rimraf lib && rimraf module && tsc -p tsconfig.build.json",
+    "prepublish": "npm run build",
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "coveralls": "jest --coverage && coveralls < coverage/lcov.info"

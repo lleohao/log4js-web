@@ -3,7 +3,8 @@
   "compilerOptions": {
     "sourceMap": false,
     "declaration": true,
-    "outDir": "lib"
+    "outDir": "lib",
+    "module": "esnext"
   },
   "exclude": ["src/**/__tests__"]
 }
